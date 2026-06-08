@@ -1,0 +1,15 @@
+:{$PORT:80} {
+    root * /app
+    file_server
+
+    # Never cache HTML so browsers always get the latest version
+    @html path *.html /
+    header @html Cache-Control "no-cache, no-store, must-revalidate"
+
+    # Cache static assets for 1 week (versioned via ?v= query string)
+    @assets path *.css *.js *.jpg *.png *.mp3 *.ico *.svg *.woff2
+    header @assets Cache-Control "public, max-age=604800"
+
+    @videos path *.mp4
+    header @videos Cache-Control "public, max-age=2592000"
+}
