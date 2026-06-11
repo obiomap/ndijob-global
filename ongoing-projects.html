@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongoing Projects · NdiJob Global</title>
+    <meta name="description" content="Ongoing projects and latest activities from NdiJob Global — Asonye Realest Group.">
+    <link rel="canonical" href="https://www.ndijobglobal.org/ongoing-projects.html">
+    <meta property="og:title" content="Ongoing Projects · NdiJob Global">
+    <meta property="og:description" content="Latest activities and ongoing initiatives from the NdiJob Global family.">
+    <meta property="og:url" content="https://www.ndijobglobal.org/ongoing-projects.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.ndijobglobal.org/photo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=28">
+    <style>
+        /* ---- Page-specific: inner page header ---- */
+        .page-header {
+            background: linear-gradient(160deg, #060f09 0%, #0f2d1c 30%, #1a5c38 65%, #0e2a1a 100%);
+            padding: 140px 0 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 60% at 80% 30%, rgba(45,138,87,0.28) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 50% at 15% 70%, rgba(201,151,24,0.20) 0%, transparent 65%);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+        }
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .page-header .eyebrow { color: var(--gold-light); }
+        .page-header .eyebrow::after { background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
+        .page-header h1 {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+        .page-header p {
+            color: rgba(255,255,255,0.68);
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ---- Ongoing video grid ---- */
+        .ongoing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+        .ongoing-card {
+            background: #ffffff;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .ongoing-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+        .ongoing-card video {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            background: var(--green-deep);
+        }
+        .ongoing-card-body {
+            padding: 22px 24px 26px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .ongoing-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green-primary);
+            background: var(--green-pale);
+            padding: 3px 10px;
+            border-radius: 50px;
+            align-self: flex-start;
+        }
+        .ongoing-card-body h3 {
+            font-size: 1.15rem;
+            color: var(--green-deep);
+            line-height: 1.3;
+        }
+        .ongoing-card-body p {
+            font-size: 0.93rem;
+            color: var(--mid);
+            line-height: 1.75;
+            flex: 1;
+        }
+        .ongoing-meta {
+            font-size: 0.78rem;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        /* ---- Empty state ---- */
+        .ongoing-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 72px 28px;
+            color: var(--muted);
+        }
+        .ongoing-empty svg {
+            width: 48px; height: 48px;
+            stroke: var(--border);
+            margin: 0 auto 18px;
+            display: block;
+        }
+        .ongoing-empty p { font-size: 1rem; }
+
+        @media (max-width: 640px) {
+            .ongoing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#home" class="nav-logo">
+                <img src="photo.jpg" alt="NdiJob Global" class="logo-img">
+                <span><span class="logo-ndijob">NdiJob</span><span class="logo-global">Global</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#milestones">Milestones</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li><a href="index.html#activities">Activities</a></li>
+                <li><a href="ongoing-projects.html" class="active">Ongoing</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#donate" class="nav-donate">Donate</a></li>
+                <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <div class="page-header">
+        <div class="container page-header-content">
+            <span class="eyebrow">Live &amp; Growing</span>
+            <h1>Ongoing Projects</h1>
+            <p>The latest activities, moments, and initiatives from the NdiJob Global family — as they happen.</p>
+        </div>
+    </div>
+
+    <!-- ===== ONGOING VIDEOS ===== -->
+    <section class="section" id="ongoing">
+        <div class="container">
+            <div class="ongoing-grid fade-up">
+
+                <!-- June 10, 2026 -->
+                <div class="ongoing-card">
+                    <video controls muted playsinline preload="none">
+                        <source src="https://ndijob-video-proxy-production.up.railway.app/VID-20260610-WA0027.mp4" type="video/mp4">
+                    </video>
+                    <div class="ongoing-card-body">
+                        <span class="ongoing-tag">Latest</span>
+                        <h3>NdiJob Moments</h3>
+                        <p>The family bond, alive and vibrant — another cherished moment captured together.</p>
+                        <span class="ongoing-meta">June 10, 2026</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="contact">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-layout">
+                    <div class="footer-brand">
+                        <img src="photo.jpg" alt="NdiJob Global" class="footer-logo-img">
+                        <div class="footer-logo">
+                            <span class="logo-ndijob">NdiJob</span><span class="logo-global">Global</span>
+                        </div>
+                        <p class="footer-org-name">Asonye Realest Group</p>
+                        <p class="footer-desc">
+                            United by love. Grounded in Umuasonye.<br>Reaching across the globe.
+                        </p>
+                        <div class="footer-pillars">
+                            <span>♥ Love</span>
+                            <span>⟳ Respect</span>
+                            <span>◎ Unity</span>
+                        </div>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Navigate</h4>
+                        <ul>
+                            <li><a href="index.html#about">About Us</a></li>
+                            <li><a href="index.html#milestones">Milestones</a></li>
+                            <li><a href="index.html#events">Events</a></li>
+                            <li><a href="index.html#gallery">Gallery</a></li>
+                            <li><a href="index.html#activities">Activities</a></li>
+                            <li><a href="ongoing-projects.html">Ongoing Projects</a></li>
+                            <li><a href="index.html#projects">Projects</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Our Roots</h4>
+                        <p>📍 Obowo Land, Imo State</p>
+                        <p>🌍 Members Worldwide</p>
+                        <p>📅 Founded: April 26, 2025</p>
+                        <p>🏡 1st Homecoming: Dec 29, 2025</p>
+                        <p>🏡 2nd Homecoming: Dec 27, 2026</p>
+                        <p>🌐 <a href="https://www.ndijobglobal.org" class="footer-domain">www.ndijobglobal.org</a></p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Connect With Us</h4>
+                        <p class="footer-connect-text">Reach out to join the family, collaborate on community projects, or simply say hello.</p>
+                        <a href="https://www.ndijobglobal.org" class="footer-email">www.ndijobglobal.org</a>
+                        <a href="mailto:admin@ndijobglobal.org" class="footer-email">admin@ndijobglobal.org</a>
+                        <div class="social-row">
+                            <a href="#" class="social-btn" title="Facebook">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            </a>
+                            <a href="#" class="social-btn" title="Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                            </a>
+                            <a href="#" class="social-btn" title="YouTube">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+                            </a>
+                            <a href="#" class="social-btn" title="WhatsApp">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.28 7.042L.787 23.338a.5.5 0 0 0 .613.613l4.297-1.493A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.285 0-4.407-.697-6.168-1.888l-.441-.304-3.16 1.098 1.097-3.16-.303-.44A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2025–2026 NdiJob Global · Asonye Realest Group · All Rights Reserved · <a href="https://www.ndijobglobal.org" style="color:inherit;opacity:0.6;">ndijobglobal.org</a></p>
+                <p class="footer-motto">"United in Love"</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=28"></script>
+</body>
+</html>
