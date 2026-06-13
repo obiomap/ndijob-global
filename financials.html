@@ -337,6 +337,68 @@
             color: var(--muted);
         }
 
+        /* ===== BREAKDOWN TABLES ===== */
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 760px) { .breakdown-grid { grid-template-columns: 1fr; } }
+
+        .breakdown-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .breakdown-card-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .breakdown-card-header.income { background: var(--green-pale); }
+        .breakdown-card-header.expense { background: #fef3ee; }
+        .breakdown-card-header svg { width: 16px; height: 16px; }
+        .breakdown-card-header.income svg { stroke: var(--green-primary); }
+        .breakdown-card-header.expense svg { stroke: var(--terra); }
+        .breakdown-card-header h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .breakdown-card-header.income h4 { color: var(--green-deep); }
+        .breakdown-card-header.expense h4 { color: var(--terra); }
+        .breakdown-card-header .total-chip {
+            margin-left: auto;
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        .breakdown-card-header.income .total-chip { color: var(--green-primary); }
+        .breakdown-card-header.expense .total-chip { color: var(--terra); }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 0.86rem;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-row-label { color: var(--ink); flex: 1; }
+        .breakdown-row-note { font-size: 0.75rem; color: var(--muted); font-style: italic; }
+        .breakdown-row-amount { font-weight: 600; color: var(--green-deep); white-space: nowrap; font-size: 0.87rem; }
+        .breakdown-row.subtotal {
+            background: var(--light);
+            font-weight: 700;
+        }
+        .breakdown-row.subtotal .breakdown-row-amount { color: var(--green-primary); font-size: 0.92rem; }
+
         /* ===== INFO BOX ===== */
         .finance-info-box {
             background: var(--gold-pale);
@@ -494,25 +556,193 @@
 
                 <div class="finance-grid fade-up">
                     <div class="finance-stat green-top">
-                        <div class="finance-stat-label">Total Contributions</div>
-                        <div class="finance-stat-value">—</div>
-                        <div class="finance-stat-note">See workbook for current figure</div>
+                        <div class="finance-stat-label">Member Contributions</div>
+                        <div class="finance-stat-value">₦2,950,000</div>
+                        <div class="finance-stat-note">Deposited to group account</div>
                     </div>
                     <div class="finance-stat gold-top">
-                        <div class="finance-stat-label">Total Expenditure</div>
-                        <div class="finance-stat-value">—</div>
-                        <div class="finance-stat-note">See workbook for current figure</div>
+                        <div class="finance-stat-label">Gifts from Invitees</div>
+                        <div class="finance-stat-value">₦3,694,000</div>
+                        <div class="finance-stat-note">From 16 invitees &amp; sponsors</div>
                     </div>
                     <div class="finance-stat blue-top">
-                        <div class="finance-stat-label">Current Balance</div>
-                        <div class="finance-stat-value">—</div>
-                        <div class="finance-stat-note">See workbook for current figure</div>
+                        <div class="finance-stat-label">Net Final Balance</div>
+                        <div class="finance-stat-value">₦851,100</div>
+                        <div class="finance-stat-note">As of June 13, 2026</div>
                     </div>
                     <div class="finance-stat terra-top">
                         <div class="finance-stat-label">Members Contributing</div>
-                        <div class="finance-stat-value">—</div>
-                        <div class="finance-stat-note">See workbook for current figure</div>
+                        <div class="finance-stat-value">13/13</div>
+                        <div class="finance-stat-note">All members fully paid</div>
                     </div>
+                </div>
+
+                <!-- Breakdown Tables -->
+                <div class="section-intro fade-up" style="margin-bottom: 28px;">
+                    <span class="eyebrow">Full Breakdown</span>
+                    <h2 class="section-title">Income &amp; Expenditure</h2>
+                </div>
+
+                <div class="breakdown-grid fade-up">
+
+                    <!-- INCOME -->
+                    <div class="breakdown-card">
+                        <div class="breakdown-card-header income">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            <h4>Income</h4>
+                            <span class="total-chip">₦6,644,000</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span class="breakdown-row-label">Member Contributions (deposited)</span>
+                            <span class="breakdown-row-amount">₦2,950,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Nkechi Umunakwe</span>
+                            <span class="breakdown-row-amount">₦150,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Benedict</span>
+                            <span class="breakdown-row-amount">₦1,000,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Odoh Chike Nnamdi</span>
+                            <span class="breakdown-row-amount">₦500,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Mrs Ibekwe</span>
+                            <span class="breakdown-row-amount">₦500,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Dubem Nnayere Odoh</span>
+                            <span class="breakdown-row-amount">₦400,000 <span class="breakdown-row-note">₦300k pending</span></span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Mrs Pearl Kanu</span>
+                            <span class="breakdown-row-amount">₦200,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Ify Ohameje</span>
+                            <span class="breakdown-row-amount">₦200,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Cash – Day of Event</span>
+                            <span class="breakdown-row-amount">₦153,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Odoh Chike Nnaemeka <span class="breakdown-row-note">incl. refunds</span></span>
+                            <span class="breakdown-row-amount">₦121,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Max</span>
+                            <span class="breakdown-row-amount">₦100,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Prof BEB Nwoke</span>
+                            <span class="breakdown-row-amount">₦100,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Emma Obinikpa</span>
+                            <span class="breakdown-row-amount">₦100,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Favour Njoku</span>
+                            <span class="breakdown-row-amount">₦100,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Chibuzor</span>
+                            <span class="breakdown-row-amount">₦50,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Casmir Chimankpam Ebelleme</span>
+                            <span class="breakdown-row-amount">₦20,000</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span class="breakdown-row-label">Total Gifts from Invitees</span>
+                            <span class="breakdown-row-amount">₦3,694,000</span>
+                        </div>
+                    </div>
+
+                    <!-- EXPENDITURE -->
+                    <div class="breakdown-card">
+                        <div class="breakdown-card-header expense">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+                            <h4>Expenditure</h4>
+                            <span class="total-chip">₦5,792,900</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span class="breakdown-row-label">Event Expenses</span>
+                            <span class="breakdown-row-amount">₦1,963,400</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Caterer</span>
+                            <span class="breakdown-row-amount">₦430,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Meat / Garden Egg / Kolanut</span>
+                            <span class="breakdown-row-amount">₦525,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Drinks / Water</span>
+                            <span class="breakdown-row-amount">₦348,400</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Canopies, Tables &amp; Chairs</span>
+                            <span class="breakdown-row-amount">₦150,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">MC</span>
+                            <span class="breakdown-row-amount">₦130,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">DJ</span>
+                            <span class="breakdown-row-amount">₦120,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Advert</span>
+                            <span class="breakdown-row-amount">₦120,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Decorations</span>
+                            <span class="breakdown-row-amount">₦110,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">T-Shirts</span>
+                            <span class="breakdown-row-amount">₦48,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Firewood</span>
+                            <span class="breakdown-row-amount">₦30,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Registration of Name</span>
+                            <span class="breakdown-row-amount">₦42,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Ice Block</span>
+                            <span class="breakdown-row-amount">₦12,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Shehu (Cash)</span>
+                            <span class="breakdown-row-amount">₦8,000</span>
+                        </div>
+                        <div class="breakdown-row subtotal">
+                            <span class="breakdown-row-label">Post-Event / Infrastructure</span>
+                            <span class="breakdown-row-amount">₦3,829,500</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">First Instalment – Borehole</span>
+                            <span class="breakdown-row-amount">₦2,759,500</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Part Payment – Tank Stand</span>
+                            <span class="breakdown-row-amount">₦1,050,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span class="breakdown-row-label">Cutting of Grass</span>
+                            <span class="breakdown-row-amount">₦20,000</span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Workbook Card -->
@@ -536,7 +766,7 @@
                         </div>
                         <div class="workbook-info">
                             <h3>NdiJob Global Financial Workbook</h3>
-                            <p>The complete financial record for NdiJob Global — Asonye Realest Group. Tracks member contributions, group expenditures, project funding, and running balances.</p>
+                            <p>The complete financial record for NdiJob Global — Asonye Realest Group. Contains 7 sheets: Dashboard, Cover, Pledges, Event Expenses, Gifts from Invitees, Post-Event Expenses, and Balance Summary.</p>
                             <div class="workbook-meta-row">
                                 <div class="workbook-meta-item">
                                     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -544,7 +774,7 @@
                                 </div>
                                 <div class="workbook-meta-item">
                                     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                    Updated 2026
+                                    Updated June 13, 2026
                                 </div>
                                 <div class="workbook-meta-item">
                                     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
