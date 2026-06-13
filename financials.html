@@ -444,6 +444,90 @@
         }
         .btn-signout:hover { background: var(--terra); color: #fff; }
 
+        /* ===== UPLOAD SECTION ===== */
+        .upload-wrap {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .upload-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 22px 20px;
+            text-align: center;
+            transition: border-color 0.2s, background 0.2s;
+            cursor: pointer;
+        }
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--green-primary);
+            background: var(--green-pale);
+        }
+        .upload-zone svg { width: 28px; height: 28px; stroke: var(--muted); margin: 0 auto 8px; display: block; }
+        .upload-zone p { font-size: 0.88rem; color: var(--mid); margin-bottom: 4px; }
+        .upload-zone span { font-size: 0.76rem; color: var(--muted); }
+        .upload-chosen {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--green-pale);
+            border: 1px solid rgba(26,92,56,0.2);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+        }
+        .upload-chosen svg { width: 20px; height: 20px; stroke: var(--green-primary); flex-shrink: 0; }
+        .upload-chosen-name { font-size: 0.88rem; font-weight: 600; color: var(--green-deep); flex: 1; }
+        .upload-chosen-size { font-size: 0.76rem; color: var(--muted); }
+        .upload-pw-row { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+        .upload-pw-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .upload-pw-input:focus { border-color: var(--green-primary); }
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            background: var(--green-primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+        .btn-upload:hover { opacity: 0.88; }
+        .btn-upload:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-upload svg { width: 15px; height: 15px; }
+        .upload-status {
+            display: none;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .upload-status.success { background: var(--green-pale); color: var(--green-primary); border: 1px solid rgba(26,92,56,0.2); }
+        .upload-status.error { background: #fef3ee; color: var(--terra); border: 1px solid rgba(184,92,58,0.2); }
+
         @media (max-width: 640px) {
             .gate-card { padding: 36px 24px 32px; }
             .workbook-body { flex-direction: column; gap: 20px; padding: 26px 24px; }
@@ -791,7 +875,7 @@
                                 </div>
                             </div>
                             <div class="workbook-actions">
-                                <a href="NdiJob_Global_Financial_Workbook.xlsx" download class="btn-download">
+                                <a href="https://ndijob-video-proxy-production.up.railway.app/NdiJob_Global_Financial_Workbook.xlsx" download class="btn-download">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                                         <polyline points="7 10 12 15 17 10"/>
@@ -799,7 +883,7 @@
                                     </svg>
                                     Download Workbook
                                 </a>
-                                <a href="NdiJob_Global_Financial_Workbook.xlsx" target="_blank" class="btn-view-online">
+                                <a href="https://ndijob-video-proxy-production.up.railway.app/NdiJob_Global_Financial_Workbook.xlsx" target="_blank" class="btn-view-online">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                                         <polyline points="15 3 21 3 21 9"/>
@@ -807,6 +891,43 @@
                                     </svg>
                                     Open in Browser
                                 </a>
+                            </div>
+
+                            <!-- Upload Section -->
+                            <div class="upload-wrap">
+                                <span class="upload-label">Update Workbook</span>
+                                <input type="file" id="wbFileInput" accept=".xlsx" style="display:none" onchange="onFileChosen(this)">
+
+                                <div class="upload-zone" id="uploadZone"
+                                     onclick="document.getElementById('wbFileInput').click()"
+                                     ondragover="event.preventDefault();this.classList.add('drag-over')"
+                                     ondragleave="this.classList.remove('drag-over')"
+                                     ondrop="event.preventDefault();this.classList.remove('drag-over');onFileDrop(event)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    <p>Click or drag &amp; drop the updated .xlsx file here</p>
+                                    <span>Maximum 20 MB</span>
+                                </div>
+
+                                <div id="uploadChosen" style="display:none">
+                                    <div class="upload-chosen">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                        <span class="upload-chosen-name" id="chosenName"></span>
+                                        <span class="upload-chosen-size" id="chosenSize"></span>
+                                        <button onclick="clearFile()" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;line-height:1;" title="Remove">✕</button>
+                                    </div>
+                                    <div class="upload-pw-row">
+                                        <input type="password" id="uploadPw" class="upload-pw-input" placeholder="Group password to confirm upload" autocomplete="current-password">
+                                        <button class="btn-upload" id="uploadBtn" onclick="doUpload()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                            Upload
+                                        </button>
+                                    </div>
+                                    <div class="upload-status" id="uploadStatus"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -941,6 +1062,65 @@
             window.addEventListener('scroll', () => {
                 navbar.classList.toggle('scrolled', window.scrollY > 40);
             }, { passive: true });
+        }
+
+        // ===== WORKBOOK UPLOAD =====
+        const PROXY = 'https://ndijob-video-proxy-production.up.railway.app';
+        let chosenFile = null;
+
+        function onFileChosen(input) {
+            if (input.files[0]) setFile(input.files[0]);
+        }
+        function onFileDrop(e) {
+            const f = e.dataTransfer.files[0];
+            if (f && f.name.endsWith('.xlsx')) setFile(f);
+        }
+        function setFile(f) {
+            chosenFile = f;
+            document.getElementById('uploadZone').style.display = 'none';
+            document.getElementById('uploadChosen').style.display = 'block';
+            document.getElementById('chosenName').textContent = f.name;
+            document.getElementById('chosenSize').textContent = (f.size / 1024).toFixed(0) + ' KB';
+            document.getElementById('uploadStatus').style.display = 'none';
+        }
+        function clearFile() {
+            chosenFile = null;
+            document.getElementById('wbFileInput').value = '';
+            document.getElementById('uploadZone').style.display = 'block';
+            document.getElementById('uploadChosen').style.display = 'none';
+        }
+        async function doUpload() {
+            if (!chosenFile) return;
+            const pw = document.getElementById('uploadPw').value;
+            if (!pw) { document.getElementById('uploadPw').focus(); return; }
+            const btn = document.getElementById('uploadBtn');
+            const status = document.getElementById('uploadStatus');
+            btn.disabled = true;
+            btn.textContent = 'Uploading…';
+            status.style.display = 'none';
+            const fd = new FormData();
+            fd.append('password', pw);
+            fd.append('file', chosenFile, 'NdiJob_Global_Financial_Workbook.xlsx');
+            try {
+                const r = await fetch(`${PROXY}/upload-workbook`, { method: 'POST', body: fd });
+                const j = await r.json();
+                status.style.display = 'block';
+                if (j.ok) {
+                    status.className = 'upload-status success';
+                    status.textContent = '✓ Workbook updated successfully. Download links now serve the new version.';
+                    clearFile();
+                    document.getElementById('uploadPw').value = '';
+                } else {
+                    status.className = 'upload-status error';
+                    status.textContent = '✗ ' + (j.error || 'Upload failed');
+                }
+            } catch {
+                status.style.display = 'block';
+                status.className = 'upload-status error';
+                status.textContent = '✗ Network error — please try again.';
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload';
         }
 
         // Mobile nav toggle
