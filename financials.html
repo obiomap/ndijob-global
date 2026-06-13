@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financials · NdiJob Global</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=28">
+    <style>
+        /* ===== PASSWORD GATE ===== */
+        #passwordGate {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #060f09 0%, #0f2d1c 30%, #1a5c38 65%, #0e2a1a 100%);
+            padding: 24px;
+        }
+        #passwordGate::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 60% at 80% 30%, rgba(45,138,87,0.28) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 50% at 15% 70%, rgba(201,151,24,0.20) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .gate-card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 24px;
+            padding: 52px 44px 48px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.40);
+        }
+        .gate-lock {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 24px rgba(201,151,24,0.35);
+        }
+        .gate-lock svg { width: 28px; height: 28px; stroke: #fff; }
+        .gate-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            display: block;
+            margin-bottom: 12px;
+        }
+        .gate-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .gate-sub {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+        .gate-input-wrap {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 15px 52px 15px 18px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .gate-input::placeholder { color: rgba(255,255,255,0.35); }
+        .gate-input:focus {
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.11);
+        }
+        .gate-toggle-vis {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255,255,255,0.45);
+            padding: 4px;
+            display: flex;
+        }
+        .gate-toggle-vis:hover { color: rgba(255,255,255,0.75); }
+        .gate-toggle-vis svg { width: 18px; height: 18px; }
+        .gate-btn {
+            width: 100%;
+            padding: 15px 24px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.97rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(201,151,24,0.35);
+        }
+        .gate-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 10px 28px rgba(201,151,24,0.45); }
+        .gate-btn:active { transform: translateY(0); }
+        .gate-error {
+            display: none;
+            margin-top: 14px;
+            padding: 10px 16px;
+            background: rgba(184,92,58,0.18);
+            border: 1px solid rgba(184,92,58,0.35);
+            border-radius: 8px;
+            color: #f4a07a;
+            font-size: 0.87rem;
+        }
+        .gate-error.visible { display: block; }
+        .gate-logo {
+            margin-top: 36px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+        }
+        .gate-logo .logo-ndijob { color: #fff; }
+        .gate-logo .logo-global { color: var(--gold-light); }
+        .gate-logo span.tagline { display: block; font-family: 'Inter', sans-serif; font-size: 0.75rem; color: rgba(255,255,255,0.38); margin-top: 4px; letter-spacing: 0.5px; }
+
+        /* ===== FINANCIALS CONTENT ===== */
+        #finContent { display: none; }
+
+        .page-header {
+            background: linear-gradient(160deg, #060f09 0%, #0f2d1c 30%, #1a5c38 65%, #0e2a1a 100%);
+            padding: 140px 0 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 60% at 80% 30%, rgba(45,138,87,0.28) 0%, transparent 70%),
+                radial-gradient(ellipse 45% 50% at 15% 70%, rgba(201,151,24,0.20) 0%, transparent 65%);
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent 100%);
+        }
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .page-header .eyebrow { color: var(--gold-light); }
+        .page-header .eyebrow::after { background: linear-gradient(90deg, transparent, var(--gold-light), transparent); }
+        .page-header h1 {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+        .page-header p {
+            color: rgba(255,255,255,0.68);
+            font-size: 1.05rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .page-header-lock {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.38);
+            margin-top: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .page-header-lock svg { width: 13px; height: 13px; }
+
+        /* ===== WORKBOOK CARD ===== */
+        .workbook-card {
+            background: #fff;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            gap: 0;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        .workbook-accent {
+            width: 8px;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, #1d6f42 0%, #2d8a57 100%);
+        }
+        .workbook-body {
+            padding: 36px 40px 36px 36px;
+            flex: 1;
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+        .workbook-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #1d6f42 0%, #2d8a57 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(29,111,66,0.30);
+        }
+        .workbook-icon svg { width: 36px; height: 36px; fill: #fff; }
+        .workbook-info { flex: 1; }
+        .workbook-info h3 {
+            font-size: 1.35rem;
+            color: var(--green-deep);
+            margin-bottom: 6px;
+        }
+        .workbook-info p {
+            font-size: 0.91rem;
+            color: var(--mid);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .workbook-meta-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .workbook-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .workbook-meta-item svg { width: 14px; height: 14px; stroke: var(--muted); }
+        .workbook-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #1d6f42 0%, #2d8a57 100%);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(29,111,66,0.30);
+        }
+        .btn-download:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(29,111,66,0.40); }
+        .btn-download svg { width: 16px; height: 16px; }
+        .btn-view-online {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: 2px solid var(--border);
+            color: var(--green-deep);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-view-online:hover { border-color: var(--green-primary); background: var(--green-pale); }
+        .btn-view-online svg { width: 16px; height: 16px; }
+
+        /* ===== FINANCE SUMMARY CARDS ===== */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        .finance-stat {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 26px 24px;
+            box-shadow: var(--shadow-sm);
+            border-top: 3px solid transparent;
+        }
+        .finance-stat.gold-top { border-top-color: var(--gold); }
+        .finance-stat.green-top { border-top-color: var(--green-primary); }
+        .finance-stat.terra-top { border-top-color: var(--terra); }
+        .finance-stat.blue-top { border-top-color: #3a7ab8; }
+        .finance-stat-label {
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .finance-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--green-deep);
+            margin-bottom: 4px;
+        }
+        .finance-stat-note {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* ===== INFO BOX ===== */
+        .finance-info-box {
+            background: var(--gold-pale);
+            border: 1px solid rgba(201,151,24,0.22);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .finance-info-box svg { width: 20px; height: 20px; stroke: var(--gold); flex-shrink: 0; margin-top: 2px; }
+        .finance-info-box p { font-size: 0.89rem; color: var(--ink); line-height: 1.75; }
+
+        /* ===== SIGN OUT ===== */
+        .signout-bar {
+            background: rgba(15,45,28,0.06);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 0;
+            text-align: right;
+        }
+        .signout-bar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+        }
+        .signout-bar span {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .btn-signout {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--terra);
+            background: none;
+            border: 1px solid var(--terra);
+            border-radius: 6px;
+            padding: 4px 12px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-signout:hover { background: var(--terra); color: #fff; }
+
+        @media (max-width: 640px) {
+            .gate-card { padding: 36px 24px 32px; }
+            .workbook-body { flex-direction: column; gap: 20px; padding: 26px 24px; }
+            .finance-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 400px) {
+            .finance-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PASSWORD GATE ===== -->
+    <div id="passwordGate">
+        <div class="gate-card">
+            <div class="gate-lock">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            </div>
+            <span class="gate-eyebrow">Members Only</span>
+            <h2 class="gate-title">Financials</h2>
+            <p class="gate-sub">This page contains NdiJob Global financial records. Enter the group password to continue.</p>
+
+            <div class="gate-input-wrap">
+                <input type="password" id="gateInput" class="gate-input" placeholder="Enter group password" autocomplete="current-password">
+                <button class="gate-toggle-vis" onclick="togglePwVis()" aria-label="Show/hide password">
+                    <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <button class="gate-btn" onclick="checkPassword()">Unlock Access</button>
+
+            <div class="gate-error" id="gateError">Incorrect password. Please try again.</div>
+
+            <div class="gate-logo">
+                <span class="logo-ndijob">NdiJob</span><span class="logo-global">Global</span>
+                <span class="tagline">Asonye Realest Group · United in Love</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FINANCIALS CONTENT ===== -->
+    <div id="finContent">
+
+        <!-- Sign-out bar -->
+        <div class="signout-bar">
+            <div class="container">
+                <span>Signed in as member</span>
+                <button class="btn-signout" onclick="signOut()">Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="navbar scrolled" id="navbar">
+            <div class="nav-container">
+                <a href="index.html#home" class="nav-logo">
+                    <img src="photo.jpg" alt="NdiJob Global" class="logo-img">
+                    <span><span class="logo-ndijob">NdiJob</span><span class="logo-global">Global</span></span>
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#milestones">Milestones</a></li>
+                    <li><a href="index.html#events">Events</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#activities">Activities</a></li>
+                    <li><a href="ongoing-projects.html">Ongoing</a></li>
+                    <li><a href="index.html#projects">Projects</a></li>
+                    <li><a href="financials.html" class="active">Financials</a></li>
+                    <li><a href="index.html#donate" class="nav-donate">Donate</a></li>
+                    <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
+                </ul>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="container page-header-content">
+                <span class="eyebrow">Financial Tracking</span>
+                <h1>NdiJob Global Financials</h1>
+                <p>Transparent financial records for the NdiJob Global family — contributions, expenditures, and balances.</p>
+                <div class="page-header-lock">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    Password protected · Members only
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Section -->
+        <section class="section" id="financials">
+            <div class="container">
+
+                <!-- Summary Stats -->
+                <div class="section-intro fade-up" style="margin-bottom: 40px;">
+                    <span class="eyebrow">At a Glance</span>
+                    <h2 class="section-title">Financial Summary</h2>
+                    <p class="section-sub">Open the workbook below for full details, history, and breakdowns.</p>
+                </div>
+
+                <div class="finance-grid fade-up">
+                    <div class="finance-stat green-top">
+                        <div class="finance-stat-label">Total Contributions</div>
+                        <div class="finance-stat-value">—</div>
+                        <div class="finance-stat-note">See workbook for current figure</div>
+                    </div>
+                    <div class="finance-stat gold-top">
+                        <div class="finance-stat-label">Total Expenditure</div>
+                        <div class="finance-stat-value">—</div>
+                        <div class="finance-stat-note">See workbook for current figure</div>
+                    </div>
+                    <div class="finance-stat blue-top">
+                        <div class="finance-stat-label">Current Balance</div>
+                        <div class="finance-stat-value">—</div>
+                        <div class="finance-stat-note">See workbook for current figure</div>
+                    </div>
+                    <div class="finance-stat terra-top">
+                        <div class="finance-stat-label">Members Contributing</div>
+                        <div class="finance-stat-value">—</div>
+                        <div class="finance-stat-note">See workbook for current figure</div>
+                    </div>
+                </div>
+
+                <!-- Workbook Card -->
+                <div class="section-intro fade-up" style="margin-bottom: 32px;">
+                    <span class="eyebrow">Financial Records</span>
+                    <h2 class="section-title">Global Financial Workbook</h2>
+                </div>
+
+                <div class="workbook-card fade-up">
+                    <div class="workbook-accent"></div>
+                    <div class="workbook-body">
+                        <div class="workbook-icon">
+                            <!-- Excel-style spreadsheet icon -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polyline points="14 2 14 8 20 8" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <line x1="8" y1="13" x2="16" y2="13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                <line x1="8" y1="17" x2="16" y2="17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                                <line x1="10" y1="9" x2="10" y2="9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="workbook-info">
+                            <h3>NdiJob Global Financial Workbook</h3>
+                            <p>The complete financial record for NdiJob Global — Asonye Realest Group. Tracks member contributions, group expenditures, project funding, and running balances.</p>
+                            <div class="workbook-meta-row">
+                                <div class="workbook-meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    Excel Workbook (.xlsx)
+                                </div>
+                                <div class="workbook-meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    Updated 2026
+                                </div>
+                                <div class="workbook-meta-item">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    Members only
+                                </div>
+                            </div>
+                            <div class="workbook-actions">
+                                <a href="NdiJob_Global_Financial_Workbook.xlsx" download class="btn-download">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    Download Workbook
+                                </a>
+                                <a href="NdiJob_Global_Financial_Workbook.xlsx" target="_blank" class="btn-view-online">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                        <polyline points="15 3 21 3 21 9"/>
+                                        <line x1="10" y1="14" x2="21" y2="3"/>
+                                    </svg>
+                                    Open in Browser
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info note -->
+                <div class="finance-info-box fade-up">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <p>This page is <strong>password protected</strong> and not indexed by search engines. The workbook is updated by the financial committee. For questions or corrections, contact <a href="mailto:admin@ndijobglobal.org" style="color: var(--green-primary); font-weight: 600;">admin@ndijobglobal.org</a>.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" id="contact">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="footer-layout">
+                        <div class="footer-brand">
+                            <img src="photo.jpg" alt="NdiJob Global" class="footer-logo-img">
+                            <div class="footer-logo">
+                                <span class="logo-ndijob">NdiJob</span><span class="logo-global">Global</span>
+                            </div>
+                            <p class="footer-org-name">Asonye Realest Group</p>
+                            <p class="footer-desc">United by love. Grounded in Umuasonye.<br>Reaching across the globe.</p>
+                            <div class="footer-pillars">
+                                <span>♥ Love</span>
+                                <span>⟳ Respect</span>
+                                <span>◎ Unity</span>
+                            </div>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Navigate</h4>
+                            <ul>
+                                <li><a href="index.html#about">About Us</a></li>
+                                <li><a href="index.html#milestones">Milestones</a></li>
+                                <li><a href="index.html#events">Events</a></li>
+                                <li><a href="index.html#gallery">Gallery</a></li>
+                                <li><a href="index.html#activities">Activities</a></li>
+                                <li><a href="ongoing-projects.html">Ongoing Projects</a></li>
+                                <li><a href="index.html#projects">Projects</a></li>
+                                <li><a href="financials.html">Financials</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Our Roots</h4>
+                            <p>📍 Obowo Land, Imo State</p>
+                            <p>🌍 Members Worldwide</p>
+                            <p>📅 Founded: April 26, 2025</p>
+                            <p>🏡 1st Homecoming: Dec 29, 2025</p>
+                            <p>🏡 2nd Homecoming: Dec 27, 2026</p>
+                            <p>🌐 <a href="https://www.ndijobglobal.org" class="footer-domain">www.ndijobglobal.org</a></p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Connect With Us</h4>
+                            <p class="footer-connect-text">Reach out to join the family, collaborate on community projects, or simply say hello.</p>
+                            <a href="https://www.ndijobglobal.org" class="footer-email">www.ndijobglobal.org</a>
+                            <a href="mailto:admin@ndijobglobal.org" class="footer-email">admin@ndijobglobal.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <p>© 2025–2026 NdiJob Global · Asonye Realest Group · All Rights Reserved</p>
+                    <p class="footer-motto">"United in Love"</p>
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- /#finContent -->
+
+    <script>
+        const HASH = '3c660967170fe682bfa0b5d48dca753f01a15d4b38922d96fca977ee2e7517d8';
+        const SESSION_KEY = 'ndijob_fin_auth';
+
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function unlock() {
+            document.getElementById('passwordGate').style.display = 'none';
+            document.getElementById('finContent').style.display = 'block';
+            // Trigger fade-up animations
+            document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+        }
+
+        async function checkPassword() {
+            const val = document.getElementById('gateInput').value;
+            if (!val) return;
+            const h = await sha256(val);
+            if (h === HASH) {
+                sessionStorage.setItem(SESSION_KEY, '1');
+                document.getElementById('gateError').classList.remove('visible');
+                unlock();
+            } else {
+                document.getElementById('gateError').classList.add('visible');
+                document.getElementById('gateInput').value = '';
+                document.getElementById('gateInput').focus();
+            }
+        }
+
+        function togglePwVis() {
+            const inp = document.getElementById('gateInput');
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+        }
+
+        function signOut() {
+            sessionStorage.removeItem(SESSION_KEY);
+            location.reload();
+        }
+
+        // Allow Enter key on input
+        document.getElementById('gateInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        // Check session on load
+        if (sessionStorage.getItem(SESSION_KEY) === '1') {
+            unlock();
+        }
+
+        // Navbar scroll behaviour (from main script)
+        const navbar = document.getElementById('navbar');
+        if (navbar) {
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 40);
+            }, { passive: true });
+        }
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks  = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('open');
+            });
+        }
+    </script>
+</body>
+</html>
