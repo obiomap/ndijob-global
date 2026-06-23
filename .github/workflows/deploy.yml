@@ -1,0 +1,35 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'video-proxy/**'
+      - '.github/**'
+      - '*.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Railway deploy
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${RAILWAY_TOKEN:-}" ]; then
+            echo "::error::RAILWAY_TOKEN secret is not set. Add it at Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          response=$(curl -sS -X POST https://backboard.railway.app/graphql/v2 \
+            -H "Content-Type: application/json" \
+            -H "Project-Access-Token: $RAILWAY_TOKEN" \
+            -d '{"query":"mutation { serviceInstanceDeployV2(serviceId: \"9aacc5ad-d1be-48d2-b38e-03802bda4ec4\", environmentId: \"98b0f563-f528-4255-aa3f-e1518b0fb00f\") }"}')
+          echo "Railway response: $response"
+          if echo "$response" | grep -q '"errors"'; then
+            echo "::error::Railway API returned an error"
+            exit 1
+          fi
+          deploy_id=$(echo "$response" | python3 -c "import json,sys; print(json.load(sys.stdin)['data']['serviceInstanceDeployV2'])")
+          echo "::notice title=Railway deploy started::Deployment ID $deploy_id"
