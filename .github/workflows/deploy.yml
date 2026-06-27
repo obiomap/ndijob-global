@@ -18,11 +18,13 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           set -euo pipefail
+          echo "RAILWAY_TOKEN length: ${#RAILWAY_TOKEN}"
           if [ -z "${RAILWAY_TOKEN:-}" ]; then
-            echo "::error::RAILWAY_TOKEN secret is not set. Add a Project Token at Settings → Secrets and variables → Actions."
+            echo "::error::RAILWAY_TOKEN secret is empty. Add a Project Token at Settings → Secrets and variables → Actions (Repository secrets, name exactly: RAILWAY_TOKEN)."
             exit 1
           fi
           npm install -g @railway/cli
+          railway --version
           railway redeploy \
             --from-source \
             --yes \
